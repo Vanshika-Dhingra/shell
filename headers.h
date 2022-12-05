@@ -16,9 +16,15 @@
 #include "pinfo.h"
 #include "ls.h"
 #include "discover.h"
+#include <fcntl.h>
 #include "syscommands.h"
 #include"history.h"
 #include"cd.h"
 #include"display.h"
+#include <sys/types.h>
+#include <signal.h>
+#include"main.h"
+#include"signalHandlers.h"
+#include"jobs.h"
 
 #endif

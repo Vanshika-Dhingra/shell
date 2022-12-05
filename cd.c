@@ -7,7 +7,11 @@ void exec_cd(char * words[],char * prev_path1,char * prev_path,char * root,int n
         printf("error:Too many arguments\n");
         return;
     }
-    if (strcmp(words[1], "-") == 0)
+    if(noOfArgs==1)
+    {
+        chdir(root);
+    }
+    else if (strcmp(words[1], "-") == 0)
     {
         if(strcmp(prev_path,"a")==0)
         {

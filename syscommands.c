@@ -1,4 +1,6 @@
 #include "headers.h"
+int ret_fork;
+struct bg temp_back;
 
 void foreGround(char *words[])
 {
@@ -17,6 +19,7 @@ void foreGround(char *words[])
     }
     else
     {
+        ret_fork=forkReturn;
         int fg_status;
         time_t start = time(NULL);
         int t = waitpid(forkReturn, &fg_status, WUNTRACED);
@@ -53,11 +56,21 @@ void backGround(char *words[], struct bg *back)
     {
         for (int i = 0; i < 100; i++)
         {
-            if ((back->pid[i]) == 0)
+            if ((temp_back.pid[i]) == 0)
             {
-                back->pid[i] = forkReturn;
-                strcpy(back->command[i], words[0]);
+                temp_back.id[i]=temp_back.total+1;
+                temp_back.pid[temp_back.total] = forkReturn;
+                strcpy(temp_back.command[temp_back.total], words[0]);
+                int k=1;
+                while(words[k]!=NULL)
+                {
+                    strcat(temp_back.command[temp_back.total]," ");
+                    strcat(temp_back.command[temp_back.total],words[k]);
+                    k++;
+                }
+                temp_back.total++;
                 printf("[%d] %d\n", i + 1, forkReturn);
+
                 break;
             }
         }

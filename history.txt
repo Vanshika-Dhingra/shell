@@ -1,0 +1,20 @@
+exit
+cat a.txt | head -7 | tail -1
+cat < a.txt | head -7 | tail -1
+cat < a.txt | wc
+cat a.txt | wc
+exit
+cat < a.txt | wc
+exit
+cat < a.txt | wc
+cat a.txt | wc
+cat < a.txt | wc
+exit
+
+sleep 5 &
+
+sig 1 9
+sleep 5
+exit
+bg 4
+jobs

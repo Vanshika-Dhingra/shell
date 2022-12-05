@@ -1,5 +1,7 @@
 #include "headers.h"
 
+extern struct bg temp_back;
+
 char *relativePath(char *root, char *cwd)
 {
     int len_cwd, len_root, min;
@@ -41,7 +43,7 @@ void clearScreen()
     write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
 }
 
-void display(struct bg *back, char *root, char *hostname)
+void display(char *root, char *hostname)
 {
     char temp[1024];
     char *user = NULL;
@@ -56,13 +58,13 @@ void display(struct bg *back, char *root, char *hostname)
     int bg_status;
     for (int i = 0; i < 100; i++)
     {
-        if (back->pid[i]>0)
+        if (temp_back.pid[i]>0)
         {
+
             char temp3[1024];
-            if (waitpid(back->pid[i], &bg_status, WNOHANG) > 0)
+            if (waitpid(temp_back.pid[i], &bg_status, WNOHANG) > 0)
             {
-                int exit_status = WEXITSTATUS(bg_status);
-                if(exit_status==0)
+                if(WIFEXITED(bg_status))
                 {
                     strcpy(temp3,"normally");
                 }
@@ -70,9 +72,7 @@ void display(struct bg *back, char *root, char *hostname)
                 {
                     strcpy(temp3,"abnormally");
                 }
-                printf("%s with PID %d exited %s\n", back->command[i], back->pid[i],temp3);
-
-                back->pid[i] = 0;
+                printf("%s with PID %d exited %s\n", temp_back.command[i], temp_back.pid[i],temp3);
             }
         }
     }

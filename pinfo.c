@@ -1,8 +1,7 @@
-#include "headers.h"
+#include"headers.h"
 
-int func_pinfo(char *root, char *pidStr, int i)
-{
-    char dataFolder[1024] = "/proc/";
+int func_pinfo(char* root, char* pidStr,int i) {
+   char dataFolder[1024] = "/proc/";
   char fileName[1024];
   int pid = -1;
   char status = '-';

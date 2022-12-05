@@ -58,5 +58,15 @@
 * then an execvp system call is made for he child process i.e. when the fork return is 0
 * now for the foreground process waitpid is called for the parent process while for the background process the pid and commands names are stored in a struct.
 ---
+> signalHandlers.c
+* functions for handling ctrl+c and ctrl+z are provided
+* whenever the program gets the signal SIGINT and SIGTSTP these routines are triggered
 
-  
+___
+
+> jobs.c
+* has functions for jobs,sig,fg,bg
+* jobs prints all the jobs in alphabetical order
+* jobs -s prints all the stopped jobs in alphabetical order
+* jobs -r prints all the running jobs in alphabetical order
+* sig bg and fg work on an id and if the process with id a does not exist it throws an error

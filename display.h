@@ -3,6 +3,6 @@
 
 char *relativePath(char *root, char *cwd);
 void clearScreen();
-void display(struct bg* back, char *root, char *hostname);
+void display(char *root, char *hostname);
 
 #endif

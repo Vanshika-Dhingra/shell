@@ -2,11 +2,11 @@
 
 void relpath(char *cwd, char *path)
 {
-    int len_cwd, len_path, min;
+int len_cwd, len_path, min;
     len_path = strlen(path);
     len_cwd = strlen(cwd);
     min = len_path;
-    int flag = 1;
+int flag=1;
     if (len_path > len_cwd)
         min = len_cwd;
     int i;
@@ -17,27 +17,17 @@ void relpath(char *cwd, char *path)
         }
         else
         {
-            flag = 0;
+            flag=0;
             break;
         }
     }
-    char *relpat = NULL;
-    relpat = (char *)malloc(sizeof(int) * 100);
-    relpat[0] = '.';
-    if (flag)
-    {
-        for (int j = i; j < strlen(path); j++)
-        {
-            relpat[1 + j - i] = path[j];
-        }
-    }
-    strcpy(path, relpat);
+   
 }
 
 void discover(char path[], int i, int j)
 {
     DIR *d;
-    struct dirent *dir;
+
     d = opendir(path);
     if (d)
     {
@@ -104,7 +94,14 @@ void discover_file(char path[], char *filename)
                 {
                     discover_file(str1, filename);
                 }
-                
+                else if (strcmp(dir->d_name, filename) == 0)
+                {
+                    char *pwd = NULL;
+                    char temp[1024];
+                    pwd = getcwd(temp, 1023);
+                    relpath(pwd, str1);
+                    printf("%s\n", str1);
+                }
             }
         }
         closedir(d);
@@ -169,7 +166,13 @@ void exec_discover(char *root, char *words[], int noOfArgs)
             else
             {
                 filename = (char *)malloc(100 * sizeof(char));
-                strcpy(filename, words[i]);
+                char *words_a;
+                words_a = (char *)malloc(100 * sizeof(char));
+                for(int j=1;j<strlen(words[i])-1;j++)
+                {
+                    words_a[j-1]=words[i][j];
+                }
+                strcpy(filename, words_a);
             }
         }
     }
@@ -216,7 +219,10 @@ void exec_discover(char *root, char *words[], int noOfArgs)
             discover(cwd1, f, d);
             chdir(cwd2);
         }
-        
+        else if (strcmp(folder, "~") == 0)
+        {
+            discover(root, f, d);
+        }
         else
         {
             char str2[1024];
@@ -234,7 +240,18 @@ void exec_discover(char *root, char *words[], int noOfArgs)
             cwd1 = getcwd(str, 1023);
             discover_file(cwd1, filename);
         }
-       
+        else if (strcmp(folder, "..") == 0)
+        {
+            char *cwd2;
+            cwd2 = (char *)malloc(100 * sizeof(char));
+            cwd2 = getcwd(str1, 1023);
+            chdir("..");
+            char *cwd1;
+            cwd1 = (char *)malloc(100 * sizeof(char));
+            cwd1 = getcwd(str, 1023);
+            discover_file(cwd1, filename);
+            chdir(cwd2);
+        }
         else
         {
             char str2[1024];
